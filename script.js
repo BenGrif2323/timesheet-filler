@@ -74,7 +74,13 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log('Form fields found:', form.getFields().map(f => f.getName()));
 
         // Calculate total hours
-        let totalHours = 0;
+        const totalHours = timeEntries.reduce((total, entry) => {
+            if (entry.hours !== 'X') {
+                const hours = parseFloat(entry.hours);
+                return !isNaN(hours) ? total + hours : total;
+            }
+            return total;
+        }, 0);
 
         timeEntries.forEach((entry, index) => {
             const lineNumber = index + 1;
@@ -86,14 +92,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 form.getTextField(`Hours ${lineNumber}`).setText(entry.hours === 'X' ? '---' : entry.hours);
                 
                 console.log(`Filled line ${lineNumber}:`, entry);
-
-                // Add hours to total if it's a valid number
-                if (entry.hours !== 'X') {
-                    const hours = parseFloat(entry.hours);
-                    if (!isNaN(hours)) {
-                        totalHours += hours;
-                    }
-                }
             } catch (error) {
                 console.error(`Error filling line ${lineNumber}:`, error);
             }

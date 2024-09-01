@@ -1,29 +1,49 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const txtFile = document.getElementById('txtFile');
+    const inputFile = document.getElementById('inputFile');
     const pdfFile = document.getElementById('pdfFile');
     const processButton = document.getElementById('processButton');
     const statusDiv = document.getElementById('status');
+    const outputFormat = document.getElementById('outputFormat');
 
     processButton.addEventListener('click', async () => {
-        if (!txtFile.files.length || !pdfFile.files.length) {
-            statusDiv.textContent = 'Please select both TXT and PDF files.';
+        if (!inputFile.files.length || !pdfFile.files.length) {
+            statusDiv.textContent = 'Please select both input and PDF files.';
             return;
         }
 
-        const txtData = await readFile(txtFile.files[0], 'text');
-        const { timeEntries, name } = parseTXT(txtData);
+        const fileData = await readFile(inputFile.files[0], 'text');
+        const { timeEntries, name } = parseInputFile(fileData);
 
         if (!validateTimeEntries(timeEntries, name)) {
-            statusDiv.textContent = 'Invalid TXT format. Please check your file.';
+            statusDiv.textContent = 'Invalid input file format. Please check your file.';
             return;
         }
 
         try {
             const pdfBytes = await readFile(pdfFile.files[0], 'arrayBuffer');
             const filledPdfBytes = await fillPDF(timeEntries, pdfBytes, name);
-            const jpgDataUrl = await convertPdfToJpg(filledPdfBytes);
-            download(jpgDataUrl, 'filled_timesheet.jpg', 'image/jpeg');
-            statusDiv.textContent = 'PDF filled, converted to JPG, and downloaded successfully!';
+            
+            let outputData;
+            let outputFilename;
+            let outputMimeType;
+
+            switch (outputFormat.value) {
+                case 'pdf':
+                    outputData = filledPdfBytes;
+                    outputFilename = 'filled_timesheet.pdf';
+                    outputMimeType = 'application/pdf';
+                    break;
+                case 'png':
+                case 'jpeg':
+                    const imgDataUrl = await convertPdfToImage(filledPdfBytes, outputFormat.value);
+                    outputData = imgDataUrl;
+                    outputFilename = `filled_timesheet.${outputFormat.value}`;
+                    outputMimeType = `image/${outputFormat.value}`;
+                    break;
+            }
+
+            download(outputData, outputFilename, outputMimeType);
+            statusDiv.textContent = `PDF filled and downloaded as ${outputFormat.value.toUpperCase()} successfully!`;
         } catch (error) {
             console.error('Error in processing:', error);
             statusDiv.textContent = `Error: ${error.message}`;
@@ -44,8 +64,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    function parseTXT(txtData) {
-        const lines = txtData.split('\n').filter(line => line.trim() !== '');
+    function parseInputFile(fileData) {
+        const lines = fileData.split('\n').filter(line => line.trim() !== '');
         const name = lines.pop().trim(); // Extract the name from the last line
         const timeEntries = lines.map(line => {
             const [date, timeRange, hours] = line.split(',').map(item => item.trim());
@@ -121,7 +141,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return await pdfDoc.save();
     }
 
-    async function convertPdfToJpg(pdfBytes) {
+    async function convertPdfToImage(pdfBytes, format) {
         const loadingTask = pdfjsLib.getDocument({ data: pdfBytes });
         const pdf = await loadingTask.promise;
         const page = await pdf.getPage(1);
@@ -141,6 +161,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         await page.render(renderContext).promise;
 
-        return canvas.toDataURL('image/jpeg', 0.8);
+        return canvas.toDataURL(`image/${format}`, 0.8);
     }
 });

@@ -12,8 +12,8 @@
         <h1>Timesheet Filler</h1>
         <div class="card">
             <div class="file-input">
-                <label for="inputFile">Input File (CSV, TXT, or XLSX)</label>
-                <input type="file" id="inputFile" accept=".csv,.txt,.xlsx">
+                <label for="inputFile">Input File (CSV or TXT)</label>
+                <input type="file" id="inputFile" accept=".csv,.txt">
             </div>
             <div class="file-input">
                 <label for="pdfFile">Timesheet-Fillable.pdf</label>
@@ -22,9 +22,9 @@
             <div class="form-group">
                 <label for="outputFormat">Output Format</label>
                 <select id="outputFormat">
-                    <option value="pdf">PDF</option>
-                    <option value="png">PNG</option>
                     <option value="jpeg">JPEG</option>
+                    <option value="png">PNG</option>
+                    <option value="pdf">PDF</option>
                 </select>
             </div>
             <button id="processButton">Process and Fill Timesheet</button>
@@ -46,7 +46,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/downloadjs/1.4.8/download.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.9.359/pdf.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

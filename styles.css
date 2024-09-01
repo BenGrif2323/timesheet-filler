@@ -72,18 +72,26 @@ input[type="file"] {
 
 input[type="file"] + label {
     font-size: 1rem;
-    color: var(--text-color);
-    background-color: var(--input-bg-color);
+    color: var(--bg-color);
+    background-color: var(--accent-color);
     display: inline-block;
     padding: 0.75rem 1.25rem;
     border-radius: 6px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    text-align: center;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 input[type="file"]:focus + label,
 input[type="file"] + label:hover {
     background-color: var(--secondary-color);
+}
+
+input[type="file"] + label::before {
+    content: '📁 ';
+    margin-right: 5px;
 }
 
 select {

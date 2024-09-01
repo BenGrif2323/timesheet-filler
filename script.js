@@ -54,17 +54,19 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     async function fillPDF(timeEntries) {
-        const pdfUrl = 'Timesheet-Fillable.pdf';
+        const pdfUrl = './Timesheet-Fillable.pdf';
         let pdfBytes;
         try {
+            console.log('Attempting to fetch PDF from:', pdfUrl);
             const response = await fetch(pdfUrl);
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
             pdfBytes = await response.arrayBuffer();
+            console.log('PDF fetched successfully');
         } catch (error) {
             console.error('Error fetching PDF:', error);
-            throw new Error(`Failed to load the PDF file. Please check if '${pdfUrl}' exists and is accessible.`);
+            throw new Error(`Failed to load the PDF file. Please check if '${pdfUrl}' exists and is accessible. Error: ${error.message}`);
         }
 
         let pdfDoc;

@@ -99,7 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Fill in the total hours
         try {
-            form.getTextField('Total Hours').setText(totalHours.toFixed(2));
+            form.getTextField('Total').setText(totalHours.toFixed(2));
             console.log('Total hours filled:', totalHours.toFixed(2));
         } catch (error) {
             console.error('Error filling Total Hours:', error);

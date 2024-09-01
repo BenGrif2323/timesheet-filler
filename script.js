@@ -1,20 +1,20 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const csvFile = document.getElementById('csvFile');
+    const txtFile = document.getElementById('txtFile');
     const pdfFile = document.getElementById('pdfFile');
     const processButton = document.getElementById('processButton');
     const statusDiv = document.getElementById('status');
 
     processButton.addEventListener('click', async () => {
-        if (!csvFile.files.length || !pdfFile.files.length) {
-            statusDiv.textContent = 'Please select both CSV and PDF files.';
+        if (!txtFile.files.length || !pdfFile.files.length) {
+            statusDiv.textContent = 'Please select both TXT and PDF files.';
             return;
         }
 
-        const csvData = await readFile(csvFile.files[0], 'text');
-        const { timeEntries, name } = parseCSV(csvData);
+        const txtData = await readFile(txtFile.files[0], 'text');
+        const { timeEntries, name } = parseTXT(txtData);
 
         if (!validateTimeEntries(timeEntries, name)) {
-            statusDiv.textContent = 'Invalid CSV format. Please check your file.';
+            statusDiv.textContent = 'Invalid TXT format. Please check your file.';
             return;
         }
 
@@ -43,8 +43,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    function parseCSV(csvData) {
-        const lines = csvData.split('\n').filter(line => line.trim() !== '');
+    function parseTXT(txtData) {
+        const lines = txtData.split('\n').filter(line => line.trim() !== '');
         const name = lines.pop().trim(); // Extract the name from the last line
         const timeEntries = lines.map(line => {
             const [date, timeRange, hours] = line.split(',').map(item => item.trim());

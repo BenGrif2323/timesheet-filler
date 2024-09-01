@@ -1,115 +1,111 @@
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    line-height: 1.4;
+    font-family: 'Roboto', sans-serif;
+    line-height: 1.6;
     margin: 0;
-    padding: 20px 0;
+    padding: 20px;
     display: flex;
     justify-content: center;
-    align-items: flex-start;
+    align-items: center;
     min-height: 100vh;
-    background-color: #1e1e1e;
-    color: #e0e0e0;
+    background-color: #f0f2f5;
+    color: #333;
     box-sizing: border-box;
 }
 
 .container {
-    background-color: #2d2d2d;
-    padding: 1.5rem;
-    border-radius: 10px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-    text-align: center;
-    max-width: 600px;
+    max-width: 800px;
     width: 100%;
-    margin-bottom: 20px;
 }
 
 h1 {
-    margin-bottom: 1rem;
-    color: #61dafb;
-    font-size: 1.8rem;
-}
-
-p {
-    margin-bottom: 1rem;
-    color: #b0b0b0;
-}
-
-input[type="file"] {
-    margin-bottom: 1rem;
-    background-color: #3d3d3d;
-    color: #e0e0e0;
-    border: 1px solid #4d4d4d;
-    border-radius: 5px;
-    padding: 8px;
-    width: calc(100% - 18px);
-}
-
-input[type="file"]::-webkit-file-upload-button {
-    background-color: #61dafb;
-    color: #1e1e1e;
-    border: none;
-    padding: 8px 16px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-input[type="file"]::-webkit-file-upload-button:hover {
-    background-color: #4fa8d5;
-}
-
-button {
-    background-color: #61dafb;
-    border: none;
-    color: #1e1e1e;
-    padding: 12px 24px;
     text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
-    cursor: pointer;
-    border-radius: 5px;
-    transition: background-color 0.3s;
+    color: #1a73e8;
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
 }
 
-button:hover {
-    background-color: #4fa8d5;
+.card {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    margin-bottom: 2rem;
 }
 
-#status {
-    margin-top: 1rem;
-    font-weight: bold;
-    color: #61dafb;
-}
-
-#instructions {
-    margin-top: 1.5rem;
-    text-align: left;
-    background-color: #3d3d3d;
-    padding: 1rem;
-    border-radius: 5px;
-}
-
-#instructions h2 {
-    font-size: 1.1rem;
-    margin-bottom: 0.75rem;
-    color: #61dafb;
-}
-
-#instructions ol {
-    padding-left: 1.25rem;
-    color: #b0b0b0;
-    margin: 0;
-}
-
-#instructions li {
-    margin-bottom: 0.5rem;
+.file-input, .form-group {
+    margin-bottom: 1.5rem;
 }
 
 label {
     display: block;
-    margin-bottom: 0.25rem;
-    color: #61dafb;
-    text-align: left;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: #5f6368;
+}
+
+input[type="file"], select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #dadce0;
+    border-radius: 4px;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+input[type="file"]:focus, select:focus {
+    outline: none;
+    border-color: #1a73e8;
+}
+
+button {
+    background-color: #1a73e8;
+    color: #ffffff;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 500;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    width: 100%;
+}
+
+button:hover {
+    background-color: #1669d9;
+}
+
+#status {
+    margin-top: 1rem;
+    font-weight: 500;
+    color: #1a73e8;
+    text-align: center;
+}
+
+.instructions {
+    background-color: #e8f0fe;
+}
+
+.instructions h2 {
+    color: #1a73e8;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.instructions ol {
+    padding-left: 1.5rem;
+    margin: 0;
+}
+
+.instructions li {
+    margin-bottom: 0.75rem;
+}
+
+@media (max-width: 600px) {
+    .container {
+        padding: 1rem;
+    }
+
+    .card {
+        padding: 1.5rem;
+    }
 }

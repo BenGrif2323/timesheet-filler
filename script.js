@@ -107,6 +107,14 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error('Error filling Total Hours:', error);
         }
 
+        // Fill in the name
+        try {
+            form.getTextField('Name').setText('Ben Grifka');
+            console.log('Name filled: Ben Grifka');
+        } catch (error) {
+            console.error('Error filling Name:', error);
+        }
+
         console.log('PDF filling completed, saving...');
         return await pdfDoc.save();
     }

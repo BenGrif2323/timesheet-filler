@@ -57,6 +57,9 @@ document.addEventListener('DOMContentLoaded', () => {
         const pdfDoc = await PDFLib.PDFDocument.load(pdfBytes);
         const form = pdfDoc.getForm();
 
+        // Calculate total hours
+        let totalHours = 0;
+
         timeEntries.forEach((entry, index) => {
             const lineNumber = index + 1;
             if (lineNumber > 14) return; // Only process up to 14 entries
@@ -65,10 +68,23 @@ document.addEventListener('DOMContentLoaded', () => {
                 form.getTextField(`Date ${lineNumber}`).setText(entry.date);
                 form.getTextField(`Time ${lineNumber}`).setText(entry.timeRange);
                 form.getTextField(`Hours ${lineNumber}`).setText(entry.hours);
+                
+                // Add hours to total if it's a valid number
+                const hours = parseFloat(entry.hours);
+                if (!isNaN(hours)) {
+                    totalHours += hours;
+                }
             } catch (error) {
                 console.error(`Error filling line ${lineNumber}:`, error);
             }
         });
+
+        // Fill in the total hours
+        try {
+            form.getTextField('Total Hours').setText(totalHours.toFixed(2));
+        } catch (error) {
+            console.error('Error filling Total Hours:', error);
+        }
 
         return await pdfDoc.save();
     }

@@ -54,24 +54,24 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     async function fillPDF(timeEntries) {
-        const pdfUrl = './Timesheet-Fillable.pdf';
+        const pdfFile = document.getElementById('pdfFile').files[0];
+        if (!pdfFile) {
+            throw new Error('Please select a PDF file.');
+        }
+
         let pdfBytes;
         try {
-            console.log('Attempting to fetch PDF from:', pdfUrl);
-            const response = await fetch(pdfUrl);
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            pdfBytes = await response.arrayBuffer();
-            console.log('PDF fetched successfully');
+            pdfBytes = await readFile(pdfFile);
+            console.log('PDF read successfully');
         } catch (error) {
-            console.error('Error fetching PDF:', error);
-            throw new Error(`Failed to load the PDF file. Please check if '${pdfUrl}' exists and is accessible. Error: ${error.message}`);
+            console.error('Error reading PDF:', error);
+            throw new Error(`Failed to read the PDF file. Error: ${error.message}`);
         }
 
         let pdfDoc;
         try {
             pdfDoc = await PDFLib.PDFDocument.load(pdfBytes);
+            console.log('PDF loaded successfully');
         } catch (error) {
             console.error('Error loading PDF:', error);
             throw new Error('Failed to load the PDF document. The file might be corrupted or in an unsupported format.');

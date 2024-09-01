@@ -1,10 +1,10 @@
 :root {
-    --bg-color: #121212;
-    --card-bg-color: #1e1e1e;
-    --text-color: #e0e0e0;
-    --accent-color: #bb86fc;
-    --secondary-color: #03dac6;
-    --error-color: #cf6679;
+    --bg-color: #1a1a1a;
+    --card-bg-color: #2a2a2a;
+    --text-color: #d0d0d0;
+    --accent-color: #9370db;
+    --secondary-color: #4db6ac;
+    --error-color: #e57373;
 }
 
 body {
@@ -12,37 +12,34 @@ body {
     line-height: 1.6;
     margin: 0;
     padding: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
     background-color: var(--bg-color);
     color: var(--text-color);
     box-sizing: border-box;
 }
 
 .container {
-    max-width: 800px;
-    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
 }
 
 h1 {
     text-align: center;
     color: var(--accent-color);
-    font-size: clamp(2rem, 5vw, 2.5rem);
-    margin-bottom: 2rem;
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
 }
 
 .card {
     background-color: var(--card-bg-color);
     border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    padding: clamp(1rem, 5vw, 2rem);
-    margin-bottom: 2rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
 }
 
 .file-input, .form-group {
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
 }
 
 label {
@@ -54,40 +51,28 @@ label {
 
 input[type="file"], select {
     width: 100%;
-    padding: 0.75rem;
+    padding: 0.5rem;
     border: 1px solid var(--secondary-color);
     border-radius: 4px;
     font-size: 1rem;
-    transition: border-color 0.3s;
     background-color: var(--bg-color);
     color: var(--text-color);
-}
-
-input[type="file"]:focus, select:focus {
-    outline: none;
-    border-color: var(--accent-color);
 }
 
 button {
     background-color: var(--accent-color);
     color: var(--bg-color);
     border: none;
-    padding: 0.75rem 1.5rem;
+    padding: 0.75rem 1rem;
     font-size: 1rem;
     font-weight: 500;
     border-radius: 4px;
     cursor: pointer;
-    transition: background-color 0.3s, transform 0.1s;
     width: 100%;
 }
 
 button:hover {
-    background-color: #a66eff;
-    transform: translateY(-2px);
-}
-
-button:active {
-    transform: translateY(0);
+    background-color: #8a5cd0;
 }
 
 #status {
@@ -97,32 +82,24 @@ button:active {
     text-align: center;
 }
 
-.instructions {
-    background-color: rgba(187, 134, 252, 0.1);
-}
-
 .instructions h2 {
     color: var(--accent-color);
-    font-size: 1.5rem;
-    margin-bottom: 1rem;
+    font-size: 1.3rem;
+    margin-bottom: 0.5rem;
 }
 
 .instructions ol {
-    padding-left: 1.5rem;
+    padding-left: 1.2rem;
     margin: 0;
 }
 
 .instructions li {
-    margin-bottom: 0.75rem;
+    margin-bottom: 0.5rem;
 }
 
 @media (max-width: 600px) {
-    body {
-        padding: 10px;
-    }
-
     .container {
-        padding: 0.5rem;
+        padding: 10px;
     }
 
     .card {
@@ -130,10 +107,6 @@ button:active {
     }
 
     h1 {
-        font-size: 1.8rem;
-    }
-
-    .instructions h2 {
-        font-size: 1.3rem;
+        font-size: 1.5rem;
     }
 }

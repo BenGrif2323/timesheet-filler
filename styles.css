@@ -1,11 +1,11 @@
 :root {
-    --bg-color: #1a1a2e;
-    --card-bg-color: #16213e;
-    --text-color: #e0e0e0;
-    --accent-color: #4a7bab;
-    --secondary-color: #3a506b;
-    --error-color: #e94560;
-    --input-bg-color: #0f3460;
+    --bg-color: #0a1929;
+    --card-bg-color: #132f4c;
+    --text-color: #e6f1ff;
+    --accent-color: #5090d3;
+    --secondary-color: #66b2ff;
+    --error-color: #ff6b6b;
+    --input-bg-color: #1e4976;
 }
 
 body {
@@ -79,7 +79,7 @@ input[type="file"]:focus, select:focus {
 
 button {
     background-color: var(--accent-color);
-    color: #ffffff;
+    color: var(--bg-color);
     border: none;
     padding: 1rem;
     font-size: 1rem;
@@ -91,7 +91,7 @@ button {
 }
 
 button:hover {
-    background-color: #5a8bbb;
+    background-color: var(--secondary-color);
 }
 
 button:active {

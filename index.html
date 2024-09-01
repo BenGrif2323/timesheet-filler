@@ -9,9 +9,19 @@
 <body>
     <div class="container">
         <h1>Timesheet CSV to PDF Filler</h1>
+        <p>Upload a CSV file with the format: "date,time_in-time_out,num_hours"</p>
         <input type="file" id="csvFile" accept=".csv">
         <button id="processButton">Process CSV and Fill PDF</button>
         <div id="status"></div>
+        <div id="instructions">
+            <h2>Instructions:</h2>
+            <ol>
+                <li>Prepare your CSV file with the format: date,time_in-time_out,num_hours</li>
+                <li>Upload the CSV file using the file input above</li>
+                <li>Click the "Process CSV and Fill PDF" button</li>
+                <li>Wait for the filled PDF to download</li>
+            </ol>
+        </div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/downloadjs/1.4.8/download.min.js"></script>

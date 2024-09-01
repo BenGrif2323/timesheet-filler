@@ -13,6 +13,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const csvData = await readFile(file);
         const timeEntries = parseCSV(csvData);
 
+        if (!validateTimeEntries(timeEntries)) {
+            statusDiv.textContent = 'Invalid CSV format. Please check your file.';
+            return;
+        }
+
         try {
             const pdfBytes = await fillPDF(timeEntries);
             download(pdfBytes, 'filled_timesheet.pdf', 'application/pdf');
@@ -32,11 +37,18 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function parseCSV(csvData) {
-        const lines = csvData.split('\n');
+        const lines = csvData.split('\n').filter(line => line.trim() !== '');
         return lines.map(line => {
-            const [date, timeRange, hours] = line.split(',');
+            const [date, timeRange, hours] = line.split(',').map(item => item.trim());
             return { date, timeRange, hours };
         });
+    }
+
+    function validateTimeEntries(timeEntries) {
+        return timeEntries.every(entry => 
+            entry.date && entry.timeRange && entry.hours &&
+            !isNaN(parseFloat(entry.hours))
+        );
     }
 
     async function fillPDF(timeEntries) {
@@ -49,9 +61,13 @@ document.addEventListener('DOMContentLoaded', () => {
             const lineNumber = index + 1;
             if (lineNumber > 14) return; // Only process up to 14 entries
 
-            form.getTextField(`Date ${lineNumber}`).setText(entry.date);
-            form.getTextField(`Time ${lineNumber}`).setText(entry.timeRange);
-            form.getTextField(`Hours ${lineNumber}`).setText(entry.hours);
+            try {
+                form.getTextField(`Date ${lineNumber}`).setText(entry.date);
+                form.getTextField(`Time ${lineNumber}`).setText(entry.timeRange);
+                form.getTextField(`Hours ${lineNumber}`).setText(entry.hours);
+            } catch (error) {
+                console.error(`Error filling line ${lineNumber}:`, error);
+            }
         });
 
         return await pdfDoc.save();

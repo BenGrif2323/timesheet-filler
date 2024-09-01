@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     async function fillPDF(timeEntries) {
-        const pdfUrl = 'templates/Timesheet-Fillable.pdf';
+        const pdfUrl = 'Timesheet-Fillable.pdf';
         let pdfBytes;
         try {
             const response = await fetch(pdfUrl);

@@ -82,8 +82,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             try {
                 form.getTextField(`Date ${lineNumber}`).setText(entry.date);
-                form.getTextField(`Time ${lineNumber}`).setText(entry.timeRange);
-                form.getTextField(`Hours ${lineNumber}`).setText(entry.hours);
+                form.getTextField(`Time ${lineNumber}`).setText(entry.timeRange === 'X' ? '---' : entry.timeRange);
+                form.getTextField(`Hours ${lineNumber}`).setText(entry.hours === 'X' ? '---' : entry.hours);
                 
                 console.log(`Filled line ${lineNumber}:`, entry);
 

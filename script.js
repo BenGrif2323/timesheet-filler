@@ -1,16 +1,16 @@
 document.addEventListener('DOMContentLoaded', () => {
     const csvFile = document.getElementById('csvFile');
+    const pdfFile = document.getElementById('pdfFile');
     const processButton = document.getElementById('processButton');
     const statusDiv = document.getElementById('status');
 
     processButton.addEventListener('click', async () => {
-        if (!csvFile.files.length) {
-            statusDiv.textContent = 'Please select a CSV file.';
+        if (!csvFile.files.length || !pdfFile.files.length) {
+            statusDiv.textContent = 'Please select both CSV and PDF files.';
             return;
         }
 
-        const file = csvFile.files[0];
-        const csvData = await readFile(file);
+        const csvData = await readFile(csvFile.files[0], 'text');
         const timeEntries = parseCSV(csvData);
 
         if (!validateTimeEntries(timeEntries)) {
@@ -19,8 +19,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         try {
-            const pdfBytes = await fillPDF(timeEntries);
-            download(pdfBytes, 'filled_timesheet.pdf', 'application/pdf');
+            const pdfBytes = await readFile(pdfFile.files[0], 'arrayBuffer');
+            const filledPdfBytes = await fillPDF(timeEntries, pdfBytes);
+            download(filledPdfBytes, 'filled_timesheet.pdf', 'application/pdf');
             statusDiv.textContent = 'PDF filled and downloaded successfully!';
         } catch (error) {
             console.error('Error in processing:', error);
@@ -29,12 +30,16 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    function readFile(file) {
+    function readFile(file, readAs) {
         return new Promise((resolve, reject) => {
             const reader = new FileReader();
             reader.onload = (event) => resolve(event.target.result);
             reader.onerror = (error) => reject(error);
-            reader.readAsText(file);
+            if (readAs === 'text') {
+                reader.readAsText(file);
+            } else if (readAs === 'arrayBuffer') {
+                reader.readAsArrayBuffer(file);
+            }
         });
     }
 
@@ -53,22 +58,8 @@ document.addEventListener('DOMContentLoaded', () => {
         );
     }
 
-    async function fillPDF(timeEntries) {
-        const pdfUrl = 'Timesheet-Fillable.pdf';
-        console.log('Loading PDF from:', pdfUrl);
-
-        let pdfBytes;
-        try {
-            const response = await fetch(pdfUrl);
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            pdfBytes = await response.arrayBuffer();
-            console.log('PDF read successfully, size:', pdfBytes.byteLength, 'bytes');
-        } catch (error) {
-            console.error('Error reading PDF:', error);
-            throw new Error(`Failed to read the PDF file. Error: ${error.message}`);
-        }
+    async function fillPDF(timeEntries, pdfBytes) {
+        console.log('Loading PDF, size:', pdfBytes.byteLength, 'bytes');
 
         let pdfDoc;
         try {

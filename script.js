@@ -21,8 +21,9 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const pdfBytes = await readFile(pdfFile.files[0], 'arrayBuffer');
             const filledPdfBytes = await fillPDF(timeEntries, pdfBytes, name);
-            download(filledPdfBytes, 'filled_timesheet.pdf', 'application/pdf');
-            statusDiv.textContent = 'PDF filled and downloaded successfully!';
+            const jpgDataUrl = await convertPdfToJpg(filledPdfBytes);
+            download(jpgDataUrl, 'filled_timesheet.jpg', 'image/jpeg');
+            statusDiv.textContent = 'PDF filled, converted to JPG, and downloaded successfully!';
         } catch (error) {
             console.error('Error in processing:', error);
             statusDiv.textContent = `Error: ${error.message}`;
@@ -118,5 +119,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
         console.log('PDF filling completed, saving...');
         return await pdfDoc.save();
+    }
+
+    async function convertPdfToJpg(pdfBytes) {
+        const loadingTask = pdfjsLib.getDocument({ data: pdfBytes });
+        const pdf = await loadingTask.promise;
+        const page = await pdf.getPage(1);
+
+        const scale = 2;
+        const viewport = page.getViewport({ scale });
+
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d');
+        canvas.height = viewport.height;
+        canvas.width = viewport.width;
+
+        const renderContext = {
+            canvasContext: context,
+            viewport: viewport
+        };
+
+        await page.render(renderContext).promise;
+
+        return canvas.toDataURL('image/jpeg', 0.8);
     }
 });

@@ -59,10 +59,12 @@ document.addEventListener('DOMContentLoaded', () => {
             throw new Error('Please select a PDF file.');
         }
 
+        console.log('PDF file selected:', pdfFile.name);
+
         let pdfBytes;
         try {
-            pdfBytes = await readFile(pdfFile);
-            console.log('PDF read successfully');
+            pdfBytes = await pdfFile.arrayBuffer();
+            console.log('PDF read successfully, size:', pdfBytes.byteLength, 'bytes');
         } catch (error) {
             console.error('Error reading PDF:', error);
             throw new Error(`Failed to read the PDF file. Error: ${error.message}`);
@@ -71,13 +73,14 @@ document.addEventListener('DOMContentLoaded', () => {
         let pdfDoc;
         try {
             pdfDoc = await PDFLib.PDFDocument.load(pdfBytes);
-            console.log('PDF loaded successfully');
+            console.log('PDF loaded successfully, page count:', pdfDoc.getPageCount());
         } catch (error) {
             console.error('Error loading PDF:', error);
-            throw new Error('Failed to load the PDF document. The file might be corrupted or in an unsupported format.');
+            throw new Error(`Failed to load the PDF document. Error: ${error.message}`);
         }
 
         const form = pdfDoc.getForm();
+        console.log('Form fields found:', form.getFields().map(f => f.getName()));
 
         // Calculate total hours
         let totalHours = 0;
@@ -91,6 +94,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 form.getTextField(`Time ${lineNumber}`).setText(entry.timeRange);
                 form.getTextField(`Hours ${lineNumber}`).setText(entry.hours);
                 
+                console.log(`Filled line ${lineNumber}:`, entry);
+
                 // Add hours to total if it's a valid number
                 if (entry.hours !== 'X') {
                     const hours = parseFloat(entry.hours);
@@ -106,10 +111,12 @@ document.addEventListener('DOMContentLoaded', () => {
         // Fill in the total hours
         try {
             form.getTextField('Total Hours').setText(totalHours.toFixed(2));
+            console.log('Total hours filled:', totalHours.toFixed(2));
         } catch (error) {
             console.error('Error filling Total Hours:', error);
         }
 
+        console.log('PDF filling completed, saving...');
         return await pdfDoc.save();
     }
 });

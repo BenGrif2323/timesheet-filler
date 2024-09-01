@@ -54,16 +54,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     async function fillPDF(timeEntries) {
-        const pdfFile = document.getElementById('pdfFile').files[0];
-        if (!pdfFile) {
-            throw new Error('Please select a PDF file.');
-        }
-
-        console.log('PDF file selected:', pdfFile.name);
+        const pdfUrl = 'Timesheet-Fillable.pdf';
+        console.log('Loading PDF from:', pdfUrl);
 
         let pdfBytes;
         try {
-            pdfBytes = await pdfFile.arrayBuffer();
+            const response = await fetch(pdfUrl);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            pdfBytes = await response.arrayBuffer();
             console.log('PDF read successfully, size:', pdfBytes.byteLength, 'bytes');
         } catch (error) {
             console.error('Error reading PDF:', error);

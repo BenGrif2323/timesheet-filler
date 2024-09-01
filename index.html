@@ -10,10 +10,14 @@
     <div class="container">
         <h1>Timesheet CSV to PDF Filler</h1>
         <p>Upload your CSV and PDF files to generate a filled timesheet.</p>
-        <label for="csvFile">Upload CSV file:</label>
-        <input type="file" id="csvFile" accept=".csv">
-        <label for="pdfFile">Upload Timesheet-Fillable.pdf:</label>
-        <input type="file" id="pdfFile" accept=".pdf">
+        <div class="file-input">
+            <label for="csvFile">Upload CSV file:</label>
+            <input type="file" id="csvFile" accept=".csv">
+        </div>
+        <div class="file-input">
+            <label for="pdfFile">Upload Timesheet-Fillable.pdf:</label>
+            <input type="file" id="pdfFile" accept=".pdf">
+        </div>
         <button id="processButton">Process CSV and Fill PDF</button>
         <div id="status"></div>
         <div id="instructions">

@@ -11,16 +11,16 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         const csvData = await readFile(csvFile.files[0], 'text');
-        const timeEntries = parseCSV(csvData);
+        const { timeEntries, name } = parseCSV(csvData);
 
-        if (!validateTimeEntries(timeEntries)) {
+        if (!validateTimeEntries(timeEntries, name)) {
             statusDiv.textContent = 'Invalid CSV format. Please check your file.';
             return;
         }
 
         try {
             const pdfBytes = await readFile(pdfFile.files[0], 'arrayBuffer');
-            const filledPdfBytes = await fillPDF(timeEntries, pdfBytes);
+            const filledPdfBytes = await fillPDF(timeEntries, pdfBytes, name);
             download(filledPdfBytes, 'filled_timesheet.pdf', 'application/pdf');
             statusDiv.textContent = 'PDF filled and downloaded successfully!';
         } catch (error) {
@@ -45,20 +45,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function parseCSV(csvData) {
         const lines = csvData.split('\n').filter(line => line.trim() !== '');
-        return lines.map(line => {
+        const name = lines.pop().trim(); // Extract the name from the last line
+        const timeEntries = lines.map(line => {
             const [date, timeRange, hours] = line.split(',').map(item => item.trim());
             return { date, timeRange, hours };
         });
+        return { timeEntries, name };
     }
 
-    function validateTimeEntries(timeEntries) {
+    function validateTimeEntries(timeEntries, name) {
         return timeEntries.every(entry => 
             entry.date && entry.timeRange && entry.hours &&
             (entry.hours === 'X' || !isNaN(parseFloat(entry.hours)))
-        );
+        ) && name.trim() !== '';
     }
 
-    async function fillPDF(timeEntries, pdfBytes) {
+    async function fillPDF(timeEntries, pdfBytes, name) {
         console.log('Loading PDF, size:', pdfBytes.byteLength, 'bytes');
 
         let pdfDoc;

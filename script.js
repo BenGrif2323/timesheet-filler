@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function validateTimeEntries(timeEntries) {
         return timeEntries.every(entry => 
             entry.date && entry.timeRange && entry.hours &&
-            !isNaN(parseFloat(entry.hours))
+            (entry.hours === 'X' || !isNaN(parseFloat(entry.hours)))
         );
     }
 
@@ -70,9 +70,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 form.getTextField(`Hours ${lineNumber}`).setText(entry.hours);
                 
                 // Add hours to total if it's a valid number
-                const hours = parseFloat(entry.hours);
-                if (!isNaN(hours)) {
-                    totalHours += hours;
+                if (entry.hours !== 'X') {
+                    const hours = parseFloat(entry.hours);
+                    if (!isNaN(hours)) {
+                        totalHours += hours;
+                    }
                 }
             } catch (error) {
                 console.error(`Error filling line ${lineNumber}:`, error);

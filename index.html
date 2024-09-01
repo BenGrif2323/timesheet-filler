@@ -3,39 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Timesheet CSV to PDF Filler</title>
+    <title>Timesheet Filler</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
-        <h1>Timesheet CSV to PDF Filler</h1>
-        <p>Upload your CSV and PDF files to generate a filled timesheet.</p>
+        <h1>Timesheet Filler</h1>
+        <p>Upload your input file and PDF template to generate a filled timesheet.</p>
         <div class="file-input">
-            <label for="txtFile">Upload TXT file:</label>
-            <input type="file" id="txtFile" accept=".txt">
+            <label for="inputFile">Upload input file (CSV, TXT, or XLSX):</label>
+            <input type="file" id="inputFile" accept=".csv,.txt,.xlsx">
         </div>
         <div class="file-input">
             <label for="pdfFile">Upload Timesheet-Fillable.pdf:</label>
             <input type="file" id="pdfFile" accept=".pdf">
         </div>
-        <button id="processButton">Process CSV and Fill PDF</button>
+        <div class="form-group">
+            <label for="outputFormat">Output Format:</label>
+            <select id="outputFormat">
+                <option value="pdf">PDF</option>
+                <option value="png">PNG</option>
+                <option value="jpeg">JPEG</option>
+            </select>
+        </div>
+        <button id="processButton">Process and Fill Timesheet</button>
         <div id="status"></div>
         <div id="instructions">
             <h2>Instructions:</h2>
             <ol>
-                <li>Prepare your TXT file with format: date,time_range,hours (e.g., '9/1/24,11:15 - 5:00,5.75')</li>
+                <li>Prepare your input file (CSV, TXT, or XLSX) with format: date,time_range,hours (e.g., '9/1/24,11:15 - 5:00,5.75')</li>
                 <li>Use 'X' for days off (e.g., '9/1/24,X,X')</li>
-                <li>Add your name as the last line of the TXT file</li>
-                <li>Upload your TXT file in the first input</li>
+                <li>Add your name as the last line of the input file</li>
+                <li>Upload your input file in the first input</li>
                 <li>Upload the Timesheet-Fillable.pdf in the second input</li>
-                <li>Click "Process CSV and Fill PDF"</li>
-                <li>Download the filled JPG when ready</li>
+                <li>Select the desired output format (PDF, PNG, or JPEG)</li>
+                <li>Click "Process and Fill Timesheet"</li>
+                <li>Download the filled timesheet when ready</li>
             </ol>
         </div>
     </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/downloadjs/1.4.8/download.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.9.359/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

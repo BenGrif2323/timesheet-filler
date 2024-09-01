@@ -1,10 +1,10 @@
 :root {
-    --bg-color: #1a1a1a;
-    --card-bg-color: #2a2a2a;
-    --text-color: #d0d0d0;
-    --accent-color: #9370db;
-    --secondary-color: #4db6ac;
-    --error-color: #e57373;
+    --bg-color: #0a1929;
+    --card-bg-color: #132f4c;
+    --text-color: #e6f1ff;
+    --accent-color: #5090d3;
+    --secondary-color: #66b2ff;
+    --error-color: #ff6b6b;
 }
 
 body {
@@ -61,7 +61,7 @@ input[type="file"], select {
 
 button {
     background-color: var(--accent-color);
-    color: var(--bg-color);
+    color: var(--text-color);
     border: none;
     padding: 0.75rem 1rem;
     font-size: 1rem;
@@ -69,10 +69,11 @@ button {
     border-radius: 4px;
     cursor: pointer;
     width: 100%;
+    transition: background-color 0.3s ease;
 }
 
 button:hover {
-    background-color: #8a5cd0;
+    background-color: #3a7cbd;
 }
 
 #status {

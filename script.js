@@ -110,8 +110,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Fill in the name
         try {
-            form.getTextField('Name').setText('Ben Grifka');
-            console.log('Name filled: Ben Grifka');
+            form.getTextField('Name').setText(name);
+            console.log('Name filled:', name);
         } catch (error) {
             console.error('Error filling Name:', error);
         }

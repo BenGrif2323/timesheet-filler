@@ -23,7 +23,9 @@ document.addEventListener('DOMContentLoaded', () => {
             download(pdfBytes, 'filled_timesheet.pdf', 'application/pdf');
             statusDiv.textContent = 'PDF filled and downloaded successfully!';
         } catch (error) {
+            console.error('Error in processing:', error);
             statusDiv.textContent = `Error: ${error.message}`;
+            statusDiv.style.color = 'red';
         }
     });
 
@@ -53,8 +55,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function fillPDF(timeEntries) {
         const pdfUrl = 'templates/Timesheet-Fillable.pdf';
-        const pdfBytes = await fetch(pdfUrl).then(res => res.arrayBuffer());
-        const pdfDoc = await PDFLib.PDFDocument.load(pdfBytes);
+        let pdfBytes;
+        try {
+            const response = await fetch(pdfUrl);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            pdfBytes = await response.arrayBuffer();
+        } catch (error) {
+            console.error('Error fetching PDF:', error);
+            throw new Error(`Failed to load the PDF file. Please check if '${pdfUrl}' exists and is accessible.`);
+        }
+
+        let pdfDoc;
+        try {
+            pdfDoc = await PDFLib.PDFDocument.load(pdfBytes);
+        } catch (error) {
+            console.error('Error loading PDF:', error);
+            throw new Error('Failed to load the PDF document. The file might be corrupted or in an unsupported format.');
+        }
+
         const form = pdfDoc.getForm();
 
         // Calculate total hours

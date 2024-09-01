@@ -9,22 +9,22 @@
 <body>
     <div class="container">
         <h1>Timesheet CSV to PDF Filler</h1>
-        <p>Upload a CSV file with the format: "date,time_in-time_out,num_hours"</p>
+        <p>Upload your CSV and PDF files to generate a filled timesheet.</p>
+        <label for="csvFile">Upload CSV file:</label>
         <input type="file" id="csvFile" accept=".csv">
+        <label for="pdfFile">Upload Timesheet-Fillable.pdf:</label>
         <input type="file" id="pdfFile" accept=".pdf">
         <button id="processButton">Process CSV and Fill PDF</button>
         <div id="status"></div>
         <div id="instructions">
             <h2>Instructions:</h2>
             <ol>
-                <li>Prepare your CSV file with the format: date,time_range,hours</li>
+                <li>Prepare your CSV file with format: date,time_range,hours (e.g., '9/1/24,11:15 - 5:00,5.75')</li>
                 <li>Use 'X' for days off (e.g., '9/1/24,X,X')</li>
-                <li>Time range format: 'start_time - end_time' (e.g., '11:15 - 5:00')</li>
-                <li>Hours should be decimal numbers (e.g., '5.75')</li>
-                <li>Upload the CSV file using the first file input above</li>
-                <li>Upload the Timesheet-Fillable.pdf file using the second file input</li>
-                <li>Click the "Process CSV and Fill PDF" button</li>
-                <li>Wait for the filled PDF to download</li>
+                <li>Upload your CSV file in the first input</li>
+                <li>Upload the Timesheet-Fillable.pdf in the second input</li>
+                <li>Click "Process CSV and Fill PDF"</li>
+                <li>Download the filled PDF when ready</li>
             </ol>
         </div>
     </div>

@@ -89,7 +89,8 @@ document.addEventListener('DOMContentLoaded', () => {
             try {
                 form.getTextField(`Date ${lineNumber}`).setText(entry.date);
                 form.getTextField(`Time ${lineNumber}`).setText(entry.timeRange === 'X' ? '---' : entry.timeRange);
-                form.getTextField(`Hours ${lineNumber}`).setText(entry.hours === 'X' ? '---' : entry.hours);
+                form.getTextField(`Hours ${lineNumber}`).setText(entry.hours === 'X' ? '---' : 
+                    (Number.isInteger(parseFloat(entry.hours)) ? `${entry.hours}.0` : entry.hours));
                 
                 console.log(`Filled line ${lineNumber}:`, entry);
             } catch (error) {

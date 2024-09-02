@@ -1,13 +1,12 @@
 document.addEventListener('DOMContentLoaded', () => {
     const inputFile = document.getElementById('inputFile');
-    const pdfFile = document.getElementById('pdfFile');
     const processButton = document.getElementById('processButton');
     const statusDiv = document.getElementById('status');
     const outputFormat = document.getElementById('outputFormat');
 
     processButton.addEventListener('click', async () => {
-        if (!inputFile.files.length || !pdfFile.files.length) {
-            statusDiv.textContent = 'Please select both input and PDF files.';
+        if (!inputFile.files.length) {
+            statusDiv.textContent = 'Please select an input file.';
             return;
         }
 
@@ -20,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         try {
-            const pdfBytes = await readFile(pdfFile.files[0], 'arrayBuffer');
+            const pdfBytes = await fetchPDFFromServer();
             const filledPdfBytes = await fillPDF(timeEntries, pdfBytes, name);
             
             let outputData;
@@ -50,6 +49,19 @@ document.addEventListener('DOMContentLoaded', () => {
             statusDiv.style.color = 'red';
         }
     });
+
+    async function fetchPDFFromServer() {
+        try {
+            const response = await fetch('/Timesheet-Fillable.pdf');
+            if (!response.ok) {
+                throw new Error('Failed to fetch PDF from server');
+            }
+            return await response.arrayBuffer();
+        } catch (error) {
+            console.error('Error fetching PDF:', error);
+            throw new Error('Failed to load the PDF from the server. Please try again later.');
+        }
+    }
 
     function readFile(file, readAs) {
         return new Promise((resolve, reject) => {

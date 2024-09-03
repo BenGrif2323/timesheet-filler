@@ -20,6 +20,7 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
+    border: 5px solid red; /* This is a test style */
 }
 
 .container {
